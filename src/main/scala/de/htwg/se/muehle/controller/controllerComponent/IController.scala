@@ -21,7 +21,7 @@ trait IController extends Publisher {
   def redo: Unit
   def isNeighbour(src:Int, dest:Int): Boolean
   def checkField(pos:Int):Boolean
-  def numMills(checkColour:Char): Int
+  def numMills(checkColour:String): Int
   def checkForMills(): Unit
   def removeStone(pos:Int): Unit
   def saveGame(): Unit

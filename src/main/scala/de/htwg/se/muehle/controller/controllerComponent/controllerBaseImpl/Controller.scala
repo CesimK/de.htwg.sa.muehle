@@ -17,7 +17,7 @@ class Controller (var grid:Grid, var p1:Player, var p2:Player) extends Publisher
 
   @Inject
   def this () {
-    this(Grid(Array.fill(24)("O")), Player("Cesim Keskin", 'W'), Player("Christopher Gogl", 'B'))
+    this(Grid(Array.fill(24)("O")), Player("Cesim Keskin", "W"), Player("Christopher Gogl", "B"))
   }
 
   var active:Player = p1
@@ -34,8 +34,8 @@ class Controller (var grid:Grid, var p1:Player, var p2:Player) extends Publisher
 
   override def newGame():Unit = {
     grid = Grid(Array.fill(24)("O"))
-    p1 = Player(p1.name, 'W')
-    p2 = Player(p2.name, 'B')
+    p1 = Player(p1.name, "W")
+    p2 = Player(p2.name, "B")
     active = p1
     publish(new GridChanged)
   }
@@ -72,7 +72,7 @@ class Controller (var grid:Grid, var p1:Player, var p2:Player) extends Publisher
     }
   }
 
-  override def numMills(checkColour: Char): Int = {
+  override def numMills(checkColour: String): Int = {
     val col_index = this.grid.filled.zipWithIndex.filter(_._1 == checkColour).map(_._2)
     if (col_index.length >= 3) {
       return mills.numMills(col_index)
@@ -144,7 +144,7 @@ class Controller (var grid:Grid, var p1:Player, var p2:Player) extends Publisher
       publish(new InvalidTurn)
       return false
     }
-    if (grid.filled(pos) != grid.empty_grid(pos)) {
+    if (grid.filled(pos) != grid.empt_val) {
       state_Placed.slotIsFilled(this)
       publish(new InvalidTurn)
       return false
