@@ -26,12 +26,12 @@ class FileIO extends FileIOInterface{
   }
 
   def gridFromXml(seq: NodeSeq): Grid = {
-    new Grid((seq \ "filled").text.toCharArray)
+    new Grid((seq \ "filled").text.map(_.toString).toArray)
   }
 
   def playerFromXml(seq: NodeSeq): Player = {
     new Player( (seq \ "name").text,
-                (seq \ "color").text.charAt(0),
+                (seq \ "color").text,
                 (seq \ "placed").text.toInt,
                 (seq \"stones").text.toInt,
                 (seq \ "mills").text.toInt

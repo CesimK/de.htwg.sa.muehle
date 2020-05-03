@@ -27,12 +27,12 @@ class FileIO extends FileIOInterface {
   }
 
   def gridFromJson(json: JsLookupResult):Grid  = {
-    new Grid ((json \ "filled").as[String].toCharArray)
+    new Grid ((json \ "filled").as[Array[String]])
   }
 
   def playerFromJson(json: JsValue):Player = {
     new Player( (json \ "name").as[String],
-                (json \ "color").as[String].charAt(0),
+                (json \ "color").as[String],
                 (json \ "placed").as[Int],
                 (json \ "stones").as[Int],
                 (json \ "mills").as[Int])

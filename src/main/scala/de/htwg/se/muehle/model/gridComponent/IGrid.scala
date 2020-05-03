@@ -5,8 +5,7 @@ import scala.swing.Publisher
 
 trait IGrid extends Publisher{
 
-  var filled:Array[String]
-  val empt_val:String
+  val filled:Array[String]
   def is_free (x: Int): Boolean
 }
 
