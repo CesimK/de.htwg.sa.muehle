@@ -1,4 +1,4 @@
-name := "de.htwg.se.muehle"
+name := "de.htwg.sa.muehle"
 
 version := "0.1"
 

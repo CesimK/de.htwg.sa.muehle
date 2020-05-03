@@ -6,7 +6,7 @@ import de.htwg.se.muehle.controller.controllerComponent.IController
 import de.htwg.se.muehle.controller.controllerComponent.commands.{MoveCommand, PlaceCommand}
 import de.htwg.se.muehle.model.fileIOImpl.FileIOInterface
 import de.htwg.se.muehle.model.gridComponent.gridBaseImpl.Mill.Mill
-import de.htwg.se.muehle.model.gridComponent.gridBaseImpl.{Grid, GridCreateGridStrategy}
+import de.htwg.se.muehle.model.gridComponent.gridBaseImpl.Grid
 import de.htwg.se.muehle.model.playerComponent.Player
 import de.htwg.se.muehle.util.{GameOver, GridChanged, InvalidTurn, TakeStone, UndoManager}
 
@@ -14,6 +14,12 @@ import scala.swing.Publisher
 
 
 class Controller (var grid:Grid, var p1:Player, var p2:Player) extends Publisher with IController {
+
+  @Inject
+  def this () {
+    this(Grid(init = true), Player("Cesim Keskin", 'W'), Player("Christopher Gogl", 'B'))
+  }
+
   var active:Player = p1
   var status:String = " "
   var highlight = Array.fill[Boolean](grid.filled.length)(false)
@@ -25,12 +31,9 @@ class Controller (var grid:Grid, var p1:Player, var p2:Player) extends Publisher
   val injector = Guice.createInjector(new MuehleModule)
   val fileio = injector.getInstance(classOf[FileIOInterface])
   private val undo_manager = new UndoManager
-  @Inject
-  def this () {
-    this(Grid(init = true), Player("Cesim Keskin", 'W'), Player("Christopher Gogl", 'B'))
-  }
+
   override def newGame():Unit = {
-    grid = (new GridCreateGridStrategy).setGrid(grid)
+    grid = Grid(init = true)
     p1 = Player(p1.name, 'W')
     p2 = Player(p2.name, 'B')
     active = p1
@@ -40,37 +43,12 @@ class Controller (var grid:Grid, var p1:Player, var p2:Player) extends Publisher
   override def gridToString: String = grid.toString
 
   override def placeStone(pos:Int):Unit = {
-    if (active.stones != 9 || active.placed >= 9) {
-      state_Placed.allStonesPlaced(this)
-      publish(new InvalidTurn)
-      return
-    }
-    if (grid.filled(pos) != grid.empty_grid(pos)) {
-      state_Placed.slotIsFilled(this)
-      publish(new InvalidTurn)
-      return
-    }
-    undo_manager.doStep(new PlaceCommand(this, pos))
+    if (checkStatusPlacing(pos)) undo_manager.doStep(new PlaceCommand(this, pos))
     publish(new GridChanged)
   }
 
   override def moveStone(src:Int, pos:Int):Unit = {
-    if (active.placed != 9) {
-      state_Moved.stonesStillAvailable(this)
-      publish(new InvalidTurn)
-      return
-    }
-    if (!grid.filled(src).equals(active.color)) {
-      state_Moved.selectedFieldInvalid(this)
-      publish(new InvalidTurn)
-      return
-    }
-    if (!grid.is_free(pos)) {
-      state_Moved.selectedFieldNotEmpty(this)
-      publish(new InvalidTurn)
-      return
-    }
-    undo_manager.doStep(new MoveCommand(this, src, pos))
+    if (checkStatusMoving(src,pos)) undo_manager.doStep(new MoveCommand(this, src, pos))
     publish(new GridChanged)
   }
 
@@ -139,5 +117,38 @@ class Controller (var grid:Grid, var p1:Player, var p2:Player) extends Publisher
     this.status =c.status
     this.active = c.active
     publish(new GridChanged)
+  }
+
+  def checkStatusMoving(src:Int, pos:Int):Boolean = {
+    if (active.placed != 9) {
+      state_Moved.stonesStillAvailable(this)
+      publish(new InvalidTurn)
+      return false
+    }
+    if (!grid.filled(src).equals(active.color)) {
+      state_Moved.selectedFieldInvalid(this)
+      publish(new InvalidTurn)
+      return false
+    }
+    if (!grid.is_free(pos)) {
+      state_Moved.selectedFieldNotEmpty(this)
+      publish(new InvalidTurn)
+      return false
+    }
+    true
+  }
+
+  def checkStatusPlacing(pos:Int):Boolean = {
+    if (active.stones != 9 || active.placed >= 9) {
+      state_Placed.allStonesPlaced(this)
+      publish(new InvalidTurn)
+      return false
+    }
+    if (grid.filled(pos) != grid.empty_grid(pos)) {
+      state_Placed.slotIsFilled(this)
+      publish(new InvalidTurn)
+      return false
+    }
+    true
   }
 }
