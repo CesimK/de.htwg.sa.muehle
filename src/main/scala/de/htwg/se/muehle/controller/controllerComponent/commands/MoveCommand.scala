@@ -18,7 +18,7 @@ class MoveCommand(controller: Controller, src:Int, pos:Int) extends Command {
       controller.state_Moved.selectedFieldNotReachable(controller)
       return
     }
-    controller.grid = Grid(edit_grid, num_fields = controller.grid.num_fields)
+    controller.grid = Grid(edit_grid)
     controller.checkForMills()
     controller.active_Moved.switchActivePlayerMoved(controller)
   }
@@ -28,7 +28,7 @@ class MoveCommand(controller: Controller, src:Int, pos:Int) extends Command {
     val edit_grid = controller.grid.filled
     edit_grid(src) = controller.active.color
     edit_grid(pos) = controller.grid.empt_val
-    controller.grid = Grid(edit_grid, num_fields = controller.grid.num_fields)
+    controller.grid = Grid(edit_grid)
     controller.checkForMills()
   }
 
@@ -36,7 +36,7 @@ class MoveCommand(controller: Controller, src:Int, pos:Int) extends Command {
     val edit_grid = controller.grid.filled
     edit_grid(pos) = controller.active.color
     edit_grid(src) = controller.grid.empt_val
-    controller.grid = Grid(edit_grid, num_fields = controller.grid.num_fields)
+    controller.grid = Grid(edit_grid)
     controller.checkForMills()
     controller.active_Moved.switchActivePlayerMoved(controller)
   }

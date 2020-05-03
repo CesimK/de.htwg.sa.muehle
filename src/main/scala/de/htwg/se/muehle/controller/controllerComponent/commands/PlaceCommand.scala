@@ -9,7 +9,7 @@ class PlaceCommand(controller: Controller, pos:Int) extends Command{
   override def doStep: Unit = {
     val edit_grid = controller.grid.filled
     edit_grid(pos) = controller.active.color
-    controller.grid = Grid(edit_grid, num_fields = controller.grid.num_fields)
+    controller.grid = Grid(edit_grid)
     controller.checkForMills()
     controller.active_Placed.switchActivePlayerPlaced(controller)
   }
@@ -17,7 +17,7 @@ class PlaceCommand(controller: Controller, pos:Int) extends Command{
   override def undoStep: Unit = {
     val edit_grid = controller.grid.filled
     edit_grid(pos) = controller.grid.empt_val
-    controller.grid = Grid(edit_grid, num_fields = controller.grid.num_fields)
+    controller.grid = Grid(edit_grid)
     controller.checkForMills()
     controller.active_Placed.switchActivePlayerRemoved(controller)
   }
@@ -26,7 +26,7 @@ class PlaceCommand(controller: Controller, pos:Int) extends Command{
   override def redoStep: Unit = {
     val edit_grid = controller.grid.filled
     edit_grid(pos) = controller.active.color
-    controller.grid = Grid(edit_grid, num_fields = controller.grid.num_fields)
+    controller.grid = Grid(edit_grid)
     controller.checkForMills()
     controller.active_Placed.switchActivePlayerPlaced(controller)
   }

@@ -17,7 +17,7 @@ class Controller (var grid:Grid, var p1:Player, var p2:Player) extends Publisher
 
   @Inject
   def this () {
-    this(Grid(init = true), Player("Cesim Keskin", 'W'), Player("Christopher Gogl", 'B'))
+    this(Grid(Array.fill(24)("O")), Player("Cesim Keskin", 'W'), Player("Christopher Gogl", 'B'))
   }
 
   var active:Player = p1
@@ -33,7 +33,7 @@ class Controller (var grid:Grid, var p1:Player, var p2:Player) extends Publisher
   private val undo_manager = new UndoManager
 
   override def newGame():Unit = {
-    grid = Grid(init = true)
+    grid = Grid(Array.fill(24)("O"))
     p1 = Player(p1.name, 'W')
     p2 = Player(p2.name, 'B')
     active = p1
