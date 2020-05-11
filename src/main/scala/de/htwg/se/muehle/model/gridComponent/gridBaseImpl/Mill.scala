@@ -38,18 +38,8 @@ object Mill extends IMill {
     parse_file(vertex)
 
     def numMills(posList: Array[Int]): Int = {
-      var count:Int = 0
-      mills.map(entry => mills.filter(posList.contains(entry._1)) {
-        count += 1
-      })
-      for (entry <- mills) {
-        if (posList.contains(entry._1) && posList.contains(entry._2) && posList.contains(entry._3)) {
-          count += 1
-        }
-      }
-      count
+      mills.count(e => posList.contains(e._1) && posList.contains(e._2) && posList.contains(e._3))
     }
   }
-
 }
 
