@@ -85,7 +85,6 @@ class Controller (var grid:Grid, var p1:Player, var p2:Player) extends Publisher
     if (num_mills > this.active.mills) {
       publish(new TakeStone)
     }
-    //this.active.mills = num_mills
   }
 
   override def removeStone(pos:Int): Unit = {

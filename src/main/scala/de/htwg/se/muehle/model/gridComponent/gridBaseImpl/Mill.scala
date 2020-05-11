@@ -2,8 +2,8 @@ package de.htwg.se.muehle.model.gridComponent.gridBaseImpl
 
 import de.htwg.se.muehle.model.gridComponent.IMill
 
+import scala.collection.mutable
 import scala.io.Source
-import scala.collection.mutable.Map
 
 object Mill extends IMill {
   override def connectMills(): List[(Int, Int, Int)] = {
@@ -20,24 +20,28 @@ object Mill extends IMill {
     tmp
   }
 
-  override def parse_file(vertex: Map[Int, List[Int]]): Unit = {
-    for (line <- Source.fromInputStream(getClass().getClassLoader().getResourceAsStream("vertex.txt")).getLines()) {
+  override def parse_file(vertex: mutable.Map[Int, List[Int]]): Unit = {
+    val stream: Iterator[String] = Source.fromInputStream(getClass.getClassLoader.getResourceAsStream("vertex.txt")).getLines()
+    stream.map(line => {
       val tokens = line.split(" ")
       if (vertex.contains(tokens(0).toInt)) {
-        vertex(tokens(0).toInt) = vertex(tokens(0).toInt).::(tokens(1).toInt)
+        vertex(tokens(0).toInt).::(tokens(1).toInt)
       } else {
         vertex += (tokens(0).toInt -> List().::(tokens(1).toInt))
       }
-    }
+    })
   }
 
   case class Mill(var mills: List[(Int, Int, Int)] = List()) {
-    var vertex: Map[Int, List[Int]] = Map[Int, List[Int]]()
+    var vertex: mutable.Map[Int, List[Int]] = mutable.Map[Int, List[Int]]()
     mills = connectMills()
     parse_file(vertex)
 
     def numMills(posList: Array[Int]): Int = {
       var count:Int = 0
+      mills.map(entry => mills.filter(posList.contains(entry._1)) {
+        count += 1
+      })
       for (entry <- mills) {
         if (posList.contains(entry._1) && posList.contains(entry._2) && posList.contains(entry._3)) {
           count += 1
