@@ -6,29 +6,36 @@ import de.htwg.se.muehle.util.{GameOver, GridChanged, InvalidTurn, TakeStone}
 import scala.swing.BorderPanel.Position.{Center, North, South}
 import scala.swing._
 import scala.swing.event._
+import scala.util.{Failure, Success, Try}
 
 class SrcSelect extends Event
 class DestSelect extends Event
 
-class Gui(controller: IController) extends MainFrame{
+class Gui(controller: Try[IController]) extends MainFrame{
   val outFont = new Font("Ariel", java.awt.Font.PLAIN, 24)
   val statFont = new Font("Ariel", java.awt.Font.PLAIN, 16)
   var moveFrom = -1
   var take = false
+  var keineAhnung: IController = _
+
+  controller match {
+    case Failure(exception) => Failure(exception)
+    case Success(value) => keineAhnung = value
+  }
 
   title = "HTWG Muehle"
   menuBar = new MenuBar {
     contents += new Menu("File") {
       mnemonic = Key.F
-      contents += new MenuItem(Action("New")  {controller.newGame()})
+      contents += new MenuItem(Action("New")  {keineAhnung.newGame()})
       contents += new MenuItem(Action("Quit") {System.exit(0)})
-      contents += new MenuItem(Action("Save") {controller.saveGame()})
-      contents += new MenuItem(Action("Load") {controller.loadGame()})
+      contents += new MenuItem(Action("Save") {keineAhnung.saveGame()})
+      contents += new MenuItem(Action("Load") {keineAhnung.loadGame()})
     }
     contents += new Menu("Edit") {
       mnemonic = Key.E
-      contents += new MenuItem(Action("Undo") {controller.undo})
-      contents += new MenuItem(Action("Redo") {controller.redo})
+      contents += new MenuItem(Action("Undo") {keineAhnung.undo})
+      contents += new MenuItem(Action("Redo") {keineAhnung.redo})
     }
     contents += new Menu("Option") {
       mnemonic = Key.O
@@ -43,7 +50,7 @@ class Gui(controller: IController) extends MainFrame{
     font = outFont
   }
   val activePlayer = new Label {
-    text = controller.active.name
+    text = keineAhnung.active.name
     font = outFont
   }
 
@@ -52,11 +59,11 @@ class Gui(controller: IController) extends MainFrame{
     contents += activePlayer
   }
 
-  val canvas = new Canvas(controller) {
+  val canvas = new Canvas(keineAhnung) {
     preferredSize = new Dimension(700, 700)
   }
   val status = new Label {
-    text = controller.status
+    text = keineAhnung.status
     font = statFont
   }
 
@@ -66,33 +73,33 @@ class Gui(controller: IController) extends MainFrame{
     layout(status) = South
   }
 
-  listenTo(controller)
+  listenTo(keineAhnung)
   listenTo(canvas.mouse.clicks)
   reactions += {
     case MouseClicked(_,point,_,_,_) => {
       val pos = check_clicked(point)
 
       if (pos >= 0 && !take) {
-        if (controller.active.placed < 9) controller.placeStone(pos)
+        if (keineAhnung.active.placed < 9) keineAhnung.placeStone(controller, pos)
         else if (moveFrom == -1) {
-          if (controller.checkField(pos)) {
+          if (keineAhnung.checkField(pos)) {
             moveFrom = pos
-            controller.highlight(pos) = true
+            keineAhnung.highlight(pos) = true
           }
         }
-        else if (moveFrom >= 0 && moveFrom <= controller.grid.filled.length) {
-          controller.moveStone(moveFrom, pos)
-          controller.highlight(moveFrom) = false
+        else if (moveFrom >= 0 && moveFrom <= keineAhnung.grid.filled.length) {
+          keineAhnung.moveStone(moveFrom, pos)
+          keineAhnung.highlight(moveFrom) = false
           moveFrom = -1
         }
         else moveFrom = -1
       } else if (take) {
-        if (controller.grid.filled(pos) == controller.active.color) {
-          controller.status = "Select oponents stone. Not your own ones."
-        } else if (controller.grid.filled(pos) == controller.grid.empt_val) {
-          controller.status = "Select a field with a stone of your oponent. Empty one is bad"
+        if (keineAhnung.grid.filled(pos) == keineAhnung.active.color) {
+          keineAhnung.status = "Select oponents stone. Not your own ones."
+        } else if (keineAhnung.grid.filled(pos) == keineAhnung.grid.empt_val) {
+          keineAhnung.status = "Select a field with a stone of your oponent. Empty one is bad"
         } else {
-          controller.removeStone(pos)
+          keineAhnung.removeStone(pos)
           take = false
         }
       }
@@ -108,8 +115,8 @@ class Gui(controller: IController) extends MainFrame{
   redraw()
 
   def redraw(): Unit = {
-    activePlayer.text = controller.active.name
-    status.text = controller.status
+    activePlayer.text = keineAhnung.active.name
+    status.text = keineAhnung.status
     canvas.redraw()
   }
 
@@ -131,13 +138,13 @@ class Gui(controller: IController) extends MainFrame{
 
 
   def takeStone(): Unit = {
-    controller.status = "Choose a stone oof yput oponent."
+    keineAhnung.status = "Choose a stone oof yput oponent."
     redraw()
     take = true
   }
 
   def gameOver(): Unit = {
-    val msg:String = "Game ended!\n" + controller.active.name + " you win the game.\n\nCongratulation."
+    val msg:String = "Game ended!\n" + keineAhnung.active.name + " you win the game.\n\nCongratulation."
     val title = "Game Over"
     Dialog.showMessage(contents.head, msg, title)
     System.exit(0)

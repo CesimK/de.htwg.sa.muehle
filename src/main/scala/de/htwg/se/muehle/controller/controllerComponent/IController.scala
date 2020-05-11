@@ -15,9 +15,9 @@ trait IController extends Publisher {
   var active:Player
   var status:String
   var highlight:Array[Boolean]
-  def newGame():Try[Controller]
+  def newGame():Try[IController]
   def gridToString: String
-  def placeStone(controller: Try[Controller] ,pos:Int):Try[Controller]
+  def placeStone(controller: Try[IController] ,pos:Int):Try[IController]
   def moveStone(src:Int, pos:Int):Unit
   def undo: Unit
   def redo: Unit

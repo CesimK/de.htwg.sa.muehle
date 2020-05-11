@@ -5,9 +5,13 @@ import de.htwg.se.muehle.util.{GameOver, GridChanged, InvalidTurn, TakeStone}
 
 import util.control.Breaks._
 import scala.swing.Reactor
+import scala.util.{Failure, Success, Try}
 
-class Tui (val controller: IController) extends Reactor {
-  listenTo(controller)
+class Tui (val controller: Try[IController]) extends Reactor {
+  controller match {
+    case Failure(exception) => Failure(exception)
+    case Success(value) => listenTo(value)
+  }
   reactions += {
     case event:GridChanged => update
     case event:InvalidTurn => update
@@ -16,20 +20,24 @@ class Tui (val controller: IController) extends Reactor {
   }
 
   def process_cmd(cmd:String):Unit = {
-    val tokens = cmd.split(" ")
-    tokens(0) match {
-      case "q" | "quit"          => println("Closing the game. All unsaved changes will be lost.")
-      case "n" | "new" | "reset" => controller.newGame()
-      case "m" | "move"          => if (tokens.length == 3) controller.moveStone(tokens(1).toInt - 1, tokens(2).toInt - 1)
-      case "u" | "undo"          => controller.undo
-      case "r" | "redo"          => controller.redo
-      case "s" | "save"          => controller.saveGame()
-      case "l" | "load"          => controller.loadGame()
-      case "p" | "place"         => if (tokens.length == 2) controller.placeStone(controller, tokens(1).toInt - 1)
-      case "sur" | "surrender"   => println("Give up")
-      case "h" | "?" | "help"    => println(this.help_text())
-      case _                     => println("This command does not exists.\nPlease see the help which commands are allowed.")
-   }
+    controller match {
+      case Success(controller) => {
+        val tokens = cmd.split(" ")
+        tokens(0) match {
+          case "q" | "quit"          => println("Closing the game. All unsaved changes will be lost.")
+          case "n" | "new" | "reset" => controller.newGame()
+          case "m" | "move"          => if (tokens.length == 3) controller.moveStone(tokens(1).toInt - 1, tokens(2).toInt - 1)
+          case "u" | "undo"          => controller.undo
+          case "r" | "redo"          => controller.redo
+          case "s" | "save"          => controller.saveGame()
+          case "l" | "load"          => controller.loadGame()
+          case "p" | "place"         => if (tokens.length == 2) controller.placeStone(this.controller, tokens(1).toInt - 1)
+          case "sur" | "surrender"   => println("Give up")
+          case "h" | "?" | "help"    => println(this.help_text())
+          case _                     => println("This command does not exists.\nPlease see the help which commands are allowed.")
+        }
+      }
+    }
   }
 
   def help_text():String =
@@ -60,35 +68,51 @@ class Tui (val controller: IController) extends Reactor {
         "\tShows this help text."
 
   def update: Unit = {
-    if (!controller.status.equals(" ")) {
-      println("Status:\n" + controller.status)
-      controller.status = " "
+    controller match {
+      case Success(controller) => {
+        if (!controller.status.equals(" ")) {
+          println("Status:\n" + controller.status)
+          controller.status = " "
+        }
+        println("Next Player: " + controller.active)
+        println("Stones placed: " + controller.active.placed)
+        println("Stones left: " + controller.active.stones)
+        println(controller.gridToString)
+      }
+      case Failure(exception) => Failure(exception)
     }
-    println("Next Player: " + controller.active)
-    println("Stones placed: " + controller.active.placed)
-    println("Stones left: " + controller.active.stones)
-    println(controller.gridToString)
+
   }
 
   def takeStone():Unit = {
-    println("Select a Stone of your Oponnent.")
-    println("Your colour: " + controller.active.color)
-    println(controller.gridToString)
-    var input:String = ""
-    breakable { while (true) {
-      input = scala.io.StdIn.readLine()
-      val pos = input.toInt
-      if (!(controller.grid.filled(pos) == controller.active.color) && !(controller.grid.filled(pos) == controller.grid.empt_val)) {
-        controller.removeStone(pos)
-        break
+    controller match {
+      case Success(controller) => {
+        println("Select a Stone of your Oponnent.")
+        println("Your colour: " + controller.active.color)
+        println(controller.gridToString)
+        var input:String = ""
+        breakable { while (true) {
+          input = scala.io.StdIn.readLine()
+          val pos = input.toInt
+          if (!(controller.grid.filled(pos) == controller.active.color) && !(controller.grid.filled(pos) == controller.grid.empt_val)) {
+            controller.removeStone(pos)
+            break
+          }
+          println("Select a stone of your oponnent.")
+        }}
       }
-      println("Select a stone of your oponnent.")
-    }}
+      case Failure(exception) => Failure(exception)
+    }
   }
 
   def gameover(): Unit = {
-    println("Game is over.")
-    println("Winner is: " + controller.active.name)
-    System.exit(0);
+    controller match {
+      case Success(controller) => {
+        println("Game is over.")
+        println("Winner is: " + controller.active.name)
+        System.exit(0);
+      }
+      case Failure(exception) => Failure(exception)
+    }
   }
 }

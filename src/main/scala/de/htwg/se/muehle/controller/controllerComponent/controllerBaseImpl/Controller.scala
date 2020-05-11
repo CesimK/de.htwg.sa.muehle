@@ -33,7 +33,7 @@ class Controller (var grid:Grid, var p1:Player, var p2:Player) extends Publisher
   val fileio = injector.getInstance(classOf[FileIOInterface])
   private val undo_manager = new UndoManager
 
-  override def newGame(): Try[Controller] = {
+  override def newGame(): Try[IController] = {
     val grid = Grid(Array.fill(24)("O"))
     val p1 = Player(this.p1.name, "W")
     val p2 = Player(this.p2.name, "B")
@@ -43,7 +43,7 @@ class Controller (var grid:Grid, var p1:Player, var p2:Player) extends Publisher
 
   override def gridToString: String = grid.toString
 
-  override def placeStone(controller:Try[Controller], pos:Int):Try[Controller] = {
+  override def placeStone(controller:Try[IController], pos:Int):Try[IController] = {
     controller match {
       case Success(x) => {
         if (checkStatusPlacing(pos)) {

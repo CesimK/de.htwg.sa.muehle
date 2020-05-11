@@ -6,7 +6,7 @@ import de.htwg.se.muehle.util.Command
 
 
 class MoveCommand(controller: Controller, src:Int, pos:Int) extends Command {
-  override def doStep(): Unit = {
+  override def doStep(): Controller = {
     val edit_grid = controller.grid.filled
     if (controller.active.jump) {
       edit_grid(pos) = controller.active.color
@@ -16,11 +16,12 @@ class MoveCommand(controller: Controller, src:Int, pos:Int) extends Command {
       edit_grid(src) = controller.grid.empt_val
     } else {
       controller.state_Moved.selectedFieldNotReachable(controller)
-      return
+      return controller
     }
     controller.grid = Grid(edit_grid)
     controller.checkForMills()
     controller.active_Moved.switchActivePlayerMoved(controller)
+    controller
   }
 
   override def undoStep: Unit = {

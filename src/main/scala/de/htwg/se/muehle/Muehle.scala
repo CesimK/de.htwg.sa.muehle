@@ -5,9 +5,11 @@ import de.htwg.se.muehle.aview.Tui
 import de.htwg.se.muehle.aview.gui.Gui
 import de.htwg.se.muehle.controller.controllerComponent.IController
 
+import scala.util.Success
+
 object Muehle {
   val injector = Guice.createInjector(new MuehleModule)
-  val controller = injector.getInstance(classOf[IController])
+  val controller = Success(injector.getInstance(classOf[IController]))
   val tui = new Tui(controller)
   val gui = new Gui(controller)
 
