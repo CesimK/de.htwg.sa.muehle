@@ -6,12 +6,13 @@ import de.htwg.se.muehle.util.Command
 
 
 class PlaceCommand(controller: Controller, pos:Int) extends Command{
-  override def doStep: Unit = {
+  override def doStep: Controller = {
     val edit_grid = controller.grid.filled
     edit_grid(pos) = controller.active.color
     controller.grid = Grid(edit_grid)
     controller.checkForMills()
     controller.active_Placed.switchActivePlayerPlaced(controller)
+    controller
   }
 
   override def undoStep: Unit = {

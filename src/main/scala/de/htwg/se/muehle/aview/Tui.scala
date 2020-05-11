@@ -25,7 +25,7 @@ class Tui (val controller: IController) extends Reactor {
       case "r" | "redo"          => controller.redo
       case "s" | "save"          => controller.saveGame()
       case "l" | "load"          => controller.loadGame()
-      case "p" | "place"         => if (tokens.length == 2) controller.placeStone(tokens(1).toInt - 1)
+      case "p" | "place"         => if (tokens.length == 2) controller.placeStone(controller, tokens(1).toInt - 1)
       case "sur" | "surrender"   => println("Give up")
       case "h" | "?" | "help"    => println(this.help_text())
       case _                     => println("This command does not exists.\nPlease see the help which commands are allowed.")

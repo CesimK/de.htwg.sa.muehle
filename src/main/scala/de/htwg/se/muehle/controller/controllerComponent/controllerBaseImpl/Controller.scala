@@ -11,6 +11,7 @@ import de.htwg.se.muehle.model.playerComponent.Player
 import de.htwg.se.muehle.util.{GameOver, GridChanged, InvalidTurn, TakeStone, UndoManager}
 
 import scala.swing.Publisher
+import scala.util.{Failure, Success, Try}
 
 
 class Controller (var grid:Grid, var p1:Player, var p2:Player) extends Publisher with IController {
@@ -32,19 +33,28 @@ class Controller (var grid:Grid, var p1:Player, var p2:Player) extends Publisher
   val fileio = injector.getInstance(classOf[FileIOInterface])
   private val undo_manager = new UndoManager
 
-  override def newGame():Unit = {
-    grid = Grid(Array.fill(24)("O"))
-    p1 = Player(p1.name, "W")
-    p2 = Player(p2.name, "B")
-    active = p1
+  override def newGame(): Try[Controller] = {
+    val grid = Grid(Array.fill(24)("O"))
+    val p1 = Player(this.p1.name, "W")
+    val p2 = Player(this.p2.name, "B")
     publish(new GridChanged)
+    Success(new Controller(grid, p1, p2))
   }
 
   override def gridToString: String = grid.toString
 
-  override def placeStone(pos:Int):Unit = {
-    if (checkStatusPlacing(pos)) undo_manager.doStep(new PlaceCommand(this, pos))
-    publish(new GridChanged)
+  override def placeStone(controller:Try[Controller], pos:Int):Try[Controller] = {
+    controller match {
+      case Success(x) => {
+        if (checkStatusPlacing(pos)) {
+          val controller = undo_manager.doStep(new PlaceCommand(this, pos))
+          publish(new GridChanged)
+          Success(controller)
+        }
+        else controller
+      }
+      case Failure(x) => Failure(throw new Exception)
+    }
   }
 
   override def moveStone(src:Int, pos:Int):Unit = {

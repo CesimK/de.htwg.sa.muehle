@@ -1,9 +1,11 @@
 package de.htwg.se.muehle.util
 
+import de.htwg.se.muehle.controller.controllerComponent.controllerBaseImpl.Controller
+
 class UndoManager {
   private var undoStack: List[Command]= Nil
   private var redoStack: List[Command]= Nil
-  def doStep(command: Command) = {
+  def doStep(command: Command):Controller = {
     undoStack = command::undoStack
     command.doStep
   }

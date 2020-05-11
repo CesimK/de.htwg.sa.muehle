@@ -1,9 +1,11 @@
 package de.htwg.se.muehle.controller.controllerComponent
 
+import de.htwg.se.muehle.controller.controllerComponent.controllerBaseImpl.Controller
 import de.htwg.se.muehle.model.gridComponent.gridBaseImpl.Grid
 import de.htwg.se.muehle.model.playerComponent.Player
 
 import scala.swing.Publisher
+import scala.util.Try
 
 trait IController extends Publisher {
 
@@ -13,9 +15,9 @@ trait IController extends Publisher {
   var active:Player
   var status:String
   var highlight:Array[Boolean]
-  def newGame():Unit
+  def newGame():Try[Controller]
   def gridToString: String
-  def placeStone(pos:Int):Unit
+  def placeStone(controller: Try[Controller] ,pos:Int):Try[Controller]
   def moveStone(src:Int, pos:Int):Unit
   def undo: Unit
   def redo: Unit
