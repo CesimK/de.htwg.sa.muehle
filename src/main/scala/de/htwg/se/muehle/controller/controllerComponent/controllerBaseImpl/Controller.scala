@@ -53,7 +53,7 @@ class Controller (var grid:Grid, var p1:Player, var p2:Player) extends Publisher
         }
         else controller
       }
-      case Failure(x) => Failure(throw new Exception)
+      case Failure(exception) => Failure(exception)
     }
   }
 
@@ -67,8 +67,32 @@ class Controller (var grid:Grid, var p1:Player, var p2:Player) extends Publisher
         }
         else controller
       }
-      case Failure(x) => Failure(throw new Exception)
+      case Failure(exception) => Failure(exception)
     }
+  }
+
+  override def removeStone(controller: Try[IController], pos:Int): Try[IController] = {
+    controller match {
+      case Success(controller) => {
+        this.grid.filled(pos) = this.grid.empt_val
+        if (this.active == this.p1) {
+          this.p2 = Player(this.p2.name, this.p2.color, this.p2.placed, this.p2.stones-1, this.p2.mills)
+          if (this.p2.stones < 3) {
+            publish(new GameOver)
+          }
+        } else if (this.active == this.p2) {
+          this.p1 = Player(this.p1.name, this.p1.color, this.p1.placed, this.p1.stones-1, this.p1.mills)
+          if (this.p1.stones < 3) {
+            publish(new GameOver)
+          }
+        }
+        this.active_Moved.switchActivePlayerMoved(this)
+        publish(new GridChanged)
+        Success(controller)
+      }
+      case Failure(exception) => Failure(exception)
+    }
+
   }
 
   override def undo: Unit = {
@@ -104,29 +128,6 @@ class Controller (var grid:Grid, var p1:Player, var p2:Player) extends Publisher
     if (num_mills > this.active.mills) {
       publish(new TakeStone)
     }
-  }
-
-  override def removeStone(controller: Try[IController], pos:Int): Try[IController] = {
-    controller match {
-      case Success(controller) => {
-        this.grid.filled(pos) = this.grid.empt_val
-        if (this.active == this.p1) {
-          this.p2 = Player(this.p2.name, this.p2.color, this.p2.placed, this.p2.stones-1, this.p2.mills)
-          if (this.p2.stones < 3) {
-            publish(new GameOver)
-          }
-        } else if (this.active == this.p2) {
-          this.p1 = Player(this.p1.name, this.p1.color, this.p1.placed, this.p1.stones-1, this.p1.mills)
-          if (this.p1.stones < 3) {
-            publish(new GameOver)
-          }
-        }
-        this.active_Moved.switchActivePlayerMoved(this)
-        publish(new GridChanged)
-        Success(controller)
-      }
-    }
-
   }
 
   override def saveGame(): Unit = {
