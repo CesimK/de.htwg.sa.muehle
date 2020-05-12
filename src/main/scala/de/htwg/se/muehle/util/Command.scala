@@ -4,6 +4,6 @@ import de.htwg.se.muehle.controller.controllerComponent.controllerBaseImpl.Contr
 
 trait Command {
   def doStep: Controller
-  def undoStep:Unit
-  def redoStep: Unit
+  def undoStep:Controller
+  def redoStep: Controller
 }

@@ -26,7 +26,7 @@ class Tui (val controller: Try[IController]) extends Reactor {
         tokens(0) match {
           case "q" | "quit"          => println("Closing the game. All unsaved changes will be lost.")
           case "n" | "new" | "reset" => controller.newGame()
-          case "m" | "move"          => if (tokens.length == 3) controller.moveStone(tokens(1).toInt - 1, tokens(2).toInt - 1)
+          case "m" | "move"          => if (tokens.length == 3) controller.moveStone(this.controller, tokens(1).toInt - 1, tokens(2).toInt - 1)
           case "u" | "undo"          => controller.undo
           case "r" | "redo"          => controller.redo
           case "s" | "save"          => controller.saveGame()
@@ -95,7 +95,7 @@ class Tui (val controller: Try[IController]) extends Reactor {
           input = scala.io.StdIn.readLine()
           val pos = input.toInt
           if (!(controller.grid.filled(pos) == controller.active.color) && !(controller.grid.filled(pos) == controller.grid.empt_val)) {
-            controller.removeStone(pos)
+            controller.removeStone(this.controller, pos)
             break
           }
           println("Select a stone of your oponnent.")

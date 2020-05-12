@@ -88,7 +88,7 @@ class Gui(controller: Try[IController]) extends MainFrame{
           }
         }
         else if (moveFrom >= 0 && moveFrom <= keineAhnung.grid.filled.length) {
-          keineAhnung.moveStone(moveFrom, pos)
+          keineAhnung.moveStone(controller, moveFrom, pos)
           keineAhnung.highlight(moveFrom) = false
           moveFrom = -1
         }
@@ -99,7 +99,7 @@ class Gui(controller: Try[IController]) extends MainFrame{
         } else if (keineAhnung.grid.filled(pos) == keineAhnung.grid.empt_val) {
           keineAhnung.status = "Select a field with a stone of your oponent. Empty one is bad"
         } else {
-          keineAhnung.removeStone(pos)
+          keineAhnung.removeStone(controller, pos)
           take = false
         }
       }
