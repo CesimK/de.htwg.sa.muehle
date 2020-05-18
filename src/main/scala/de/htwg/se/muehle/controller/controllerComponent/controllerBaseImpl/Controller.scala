@@ -95,16 +95,6 @@ class Controller (var grid:Grid, var p1:Player, var p2:Player) extends Publisher
 
   }
 
-  override def undo: Unit = {
-    undo_manager.undoStep
-    publish(new GridChanged)
-  }
-
-  override def redo: Unit = {
-    undo_manager.redoStep
-    publish(new GridChanged)
-  }
-
   override def isNeighbour(src:Int, dest:Int): Boolean = mills.vertex(src).contains(dest)
 
   override def checkField(pos:Int):Boolean = {
@@ -128,6 +118,16 @@ class Controller (var grid:Grid, var p1:Player, var p2:Player) extends Publisher
     if (num_mills > this.active.mills) {
       publish(new TakeStone)
     }
+  }
+
+  override def undo: Unit = {
+    undo_manager.undoStep
+    publish(new GridChanged)
+  }
+
+  override def redo: Unit = {
+    undo_manager.redoStep
+    publish(new GridChanged)
   }
 
   override def saveGame(): Unit = {
