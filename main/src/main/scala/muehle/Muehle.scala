@@ -2,14 +2,14 @@ package muehle
 
 import aview.Tui
 import com.google.inject.Guice
-import controller.{IController, MuehleModule}
+import controller.MuehleModule
+import controllerBaseImpl.Controller
 import gui.Gui
 
 import scala.util.Success
 
 object Muehle {
-  val injector = Guice.createInjector(new MuehleModule)
-  val controller = Success(injector.getInstance(classOf[IController]))
+  val controller = Success(new Controller())
   val tui = new Tui(controller)
   val gui = new Gui(controller)
 

@@ -14,7 +14,6 @@ import scala.util.{Failure, Success, Try}
 
 class Controller (var grid:Grid, var p1:Player, var p2:Player) extends Publisher with IController {
 
-  @Inject
   def this () {
     this(Grid(Array.fill(24)("O")), Player("Cesim Keskin", "W"), Player("Christopher Gogl", "B"))
   }
