@@ -2,7 +2,7 @@ package aview.gui
 
 import java.awt.{BasicStroke, Color, Graphics2D}
 
-import controller.controllerComponent.IController
+import controller.IController
 
 import scala.swing._
 

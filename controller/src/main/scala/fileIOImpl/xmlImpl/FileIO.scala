@@ -1,13 +1,13 @@
-package model.fileIOImpl.xmlImpl
+package fileIOImpl.xmlImpl
 
-import controller.controllerComponent.IController
-import controller.controllerComponent.controllerBaseImpl.Controller
-import model.fileIOImpl.FileIOInterface
-import model.gridComponent.gridBaseImpl.Grid
-import model.gridComponent.IGrid
-import model.playerComponent.Player
+import controller.IController
+import controllerBaseImpl.Controller
+import fileIOImpl.FileIOInterface
+import gridComponent.IGrid
+import gridComponent.gridBaseImpl.Grid
+import playerComponent.Player
 
-import scala.xml.{NodeSeq, PrettyPrinter, Elem}
+import scala.xml.{Elem, NodeSeq, PrettyPrinter}
 
 class FileIO extends FileIOInterface{
   override def load(): IController = {

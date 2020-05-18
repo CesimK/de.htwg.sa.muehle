@@ -1,4 +1,4 @@
-package model.gridComponent
+package gridComponent
 
 import scala.collection.mutable.Map
 import scala.swing.Publisher

@@ -1,3 +1,7 @@
+package aview
+
+import controller.{GameOver, GridChanged, IController, InvalidTurn, TakeStone}
+
 import scala.swing.Reactor
 import scala.util.control.Breaks._
 import scala.util.{Failure, Success, Try}

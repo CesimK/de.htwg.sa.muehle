@@ -1,6 +1,7 @@
-package model.gridComponent.gridBaseImpl
+package gridComponent.gridBaseImpl
 
-import model.gridComponent.IMill
+
+import gridComponent.IMill
 
 import scala.collection.mutable
 import scala.io.Source

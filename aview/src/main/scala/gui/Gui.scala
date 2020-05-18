@@ -1,7 +1,7 @@
-package aview.gui
+package gui
 
-import controller.controllerComponent.IController
-import controller.{GameOver, GridChanged, InvalidTurn, TakeStone}
+import aview.gui.Canvas
+import controller._
 
 import scala.swing.BorderPanel.Position.{Center, North, South}
 import scala.swing._

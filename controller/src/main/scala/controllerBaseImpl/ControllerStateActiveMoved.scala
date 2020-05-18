@@ -1,4 +1,4 @@
-package controller.controllerComponent.controllerBaseImpl
+package controllerBaseImpl
 
 
 class ControllerStateActiveMoved extends ControllerStateActive {

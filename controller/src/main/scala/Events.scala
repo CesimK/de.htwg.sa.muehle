@@ -1,3 +1,5 @@
+package controller
+
 import scala.swing.event.Event
 
 class GridChanged   extends Event

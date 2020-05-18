@@ -1,6 +1,7 @@
-package model.fileIOImpl
+package fileIOImpl
 
-import controller.controllerComponent.IController
+import controller.IController
+
 
 trait FileIOInterface {
   def load():IController

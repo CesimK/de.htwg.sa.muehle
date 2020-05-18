@@ -1,3 +1,11 @@
+package controller
+
+import gridComponent.gridBaseImpl.Grid
+import playerComponent.Player
+
+import scala.swing.Publisher
+import scala.util.Try
+
 trait IController extends Publisher {
 
   var grid:Grid

@@ -1,13 +1,13 @@
-package model.fileIOImpl.jsonImpl
+package fileIOImpl.jsonImpl
 
-import controller.controllerComponent.IController
-import controller.controllerComponent.controllerBaseImpl.Controller
-import model.fileIOImpl.FileIOInterface
-import model.gridComponent.IGrid
-import model.gridComponent.gridBaseImpl.Grid
-import model.playerComponent.Player
-
+import controller.IController
+import controllerBaseImpl.Controller
+import fileIOImpl.FileIOInterface
+import gridComponent.IGrid
+import gridComponent.gridBaseImpl.Grid
 import play.api.libs.json._
+import playerComponent.Player
+
 import scala.io._
 
 class FileIO extends FileIOInterface {

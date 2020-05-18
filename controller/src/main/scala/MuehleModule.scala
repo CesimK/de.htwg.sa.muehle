@@ -1,10 +1,9 @@
-package de.htwg.se.muehle
+package controller
 
 import com.google.inject.AbstractModule
+import controller.IController
+import fileIOImpl.{FileIOInterface, jsonImpl}
 import net.codingwell.scalaguice.ScalaModule
-import de.htwg.se.muehle.controller.controllerComponent.{IController, controllerBaseImpl}
-import de.htwg.se.muehle.model.fileIOImpl.{FileIOInterface, jsonImpl, xmlImpl}
-import de.htwg.se.muehle.model.gridComponent.{IGrid, gridBaseImpl}
 
 
 class MuehleModule extends AbstractModule with ScalaModule {

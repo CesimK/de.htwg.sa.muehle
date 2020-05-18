@@ -55,6 +55,15 @@ lazy val aview = project
   .dependsOn(model, controller)
   .aggregate(model, controller)
 
+lazy val main = project
+  .settings(name := "main",
+            settings,
+            assemblySettings,
+            libraryDependencies ++= mainModuleDependencies ++ Seq(
+              dependencies.pureconfig))
+  .dependsOn(model, controller, aview)
+  .aggregate(model, controller, aview)
+
 lazy val model = project
   .settings(name := "model",
             settings,

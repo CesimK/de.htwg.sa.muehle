@@ -1,14 +1,12 @@
-package controller.controllerComponent.controllerBaseImpl
+package controllerBaseImpl
 
 import com.google.inject.{Guice, Inject}
-import MuehleModule
-import controller.controllerComponent.IController
-import controller.controllerComponent.commands.{MoveCommand, PlaceCommand}
-import model.fileIOImpl.FileIOInterface
-import model.gridComponent.gridBaseImpl.Mill.Mill
-import model.gridComponent.gridBaseImpl.Grid
-import model.playerComponent.Player
-import controller.{GameOver, GridChanged, InvalidTurn, TakeStone, UndoManager}
+import commands.{MoveCommand, PlaceCommand}
+import controller._
+import fileIOImpl.FileIOInterface
+import gridComponent.gridBaseImpl.Grid
+import gridComponent.gridBaseImpl.Mill.Mill
+import playerComponent.Player
 
 import scala.swing.Publisher
 import scala.util.{Failure, Success, Try}

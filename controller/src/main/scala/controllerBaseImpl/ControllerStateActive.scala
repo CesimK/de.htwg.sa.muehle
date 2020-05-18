@@ -1,4 +1,5 @@
-package controller.controllerComponent.controllerBaseImpl
+package controllerBaseImpl
+
 
 trait ControllerStateActive {
 

@@ -1,8 +1,8 @@
-package controller.controllerComponent.commands
+package commands
 
-import controller.controllerComponent.controllerBaseImpl.Controller
-import model.gridComponent.gridBaseImpl.Grid
 import controller.Command
+import controllerBaseImpl.Controller
+import gridComponent.gridBaseImpl.Grid
 
 
 class MoveCommand(controller: Controller, src:Int, pos:Int) extends Command {

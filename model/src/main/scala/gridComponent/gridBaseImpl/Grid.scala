@@ -1,6 +1,6 @@
-package model.gridComponent.gridBaseImpl
+package gridComponent.gridBaseImpl
 
-import model.gridComponent.IGrid
+import gridComponent.IGrid
 
 case class Grid (filled:Array[String]) extends IGrid {
   val empt_val = "O"

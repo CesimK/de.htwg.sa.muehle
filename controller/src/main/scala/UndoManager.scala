@@ -1,4 +1,6 @@
-import controller.controllerComponent.controllerBaseImpl.Controller
+package controller
+
+import controllerBaseImpl.Controller
 
 class UndoManager {
   private var undoStack: List[Command]= Nil

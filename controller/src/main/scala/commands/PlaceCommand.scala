@@ -1,8 +1,8 @@
-package controller.controllerComponent.commands
+package commands
 
-import model.gridComponent.gridBaseImpl.Grid
-import controller.controllerComponent.controllerBaseImpl.Controller
 import controller.Command
+import controllerBaseImpl.Controller
+import gridComponent.gridBaseImpl.Grid
 
 
 class PlaceCommand(controller: Controller, pos:Int) extends Command{
