@@ -1,9 +1,9 @@
 package de.htwg.se.muehle
 
 import com.google.inject.Guice
-import de.htwg.se.muehle.aview.Tui
-import de.htwg.se.muehle.aview.gui.Gui
-import de.htwg.se.muehle.controller.controllerComponent.IController
+import aview.Tui
+import aview.gui.Gui
+import controller.controllerComponent.IController
 
 import scala.util.Success
 
