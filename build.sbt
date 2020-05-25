@@ -73,6 +73,7 @@ lazy val dependencies =
     val akkaV = "2.5.6"
     val scalatestV = "3.0.4"
     val scalacheckV = "1.13.5"
+    val akkahttpV = "10.0.7"
 
     val logback = "ch.qos.logback" % "logback-classic" % logbackV
     val logstash = "net.logstash.logback" % "logstash-logback-encoder" % logstashV
@@ -80,6 +81,7 @@ lazy val dependencies =
     val slf4j = "org.slf4j" % "jcl-over-slf4j" % slf4jV
     val typesafeConfig = "com.typesafe" % "config" % typesafeConfigV
     val akka = "com.typesafe.akka" %% "akka-stream" % akkaV
+    val akkahttp = "com.typesafe.akka" %% "akka-http" % akkahttpV
     val monocleCore = "com.github.julien-truffaut" %% "monocle-core" % monocleV
     val monocleMacro = "com.github.julien-truffaut" %% "monocle-macro" % monocleV
     val pureconfig = "com.github.pureconfig" %% "pureconfig" % pureconfigV
@@ -95,6 +97,7 @@ lazy val mainModuleDependencies = Seq(
   dependencies.slf4j,
   dependencies.typesafeConfig,
   dependencies.akka,
+  dependencies.akkahttp,
   dependencies.gguice,
   dependencies.scalatest % "test",
   dependencies.scalacheck % "test",

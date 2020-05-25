@@ -27,4 +27,5 @@ trait IController extends Publisher {
   def removeStone(controller: Try[IController],pos:Int): Try[IController]
   def saveGame(): Unit
   def loadGame(): Unit
+  def gridToHTML:String
 }

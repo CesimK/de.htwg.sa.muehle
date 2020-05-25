@@ -40,6 +40,8 @@ class Controller (var grid:Grid, var p1:Player, var p2:Player) extends Publisher
 
   override def gridToString: String = grid.toString
 
+  override def gridToHTML: String = grid.toHTML
+
   override def placeStone(controller:Try[IController], pos:Int):Try[IController] = {
     controller match {
       case Success(x) => {

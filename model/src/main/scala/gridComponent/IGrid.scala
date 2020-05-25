@@ -6,6 +6,7 @@ import scala.swing.Publisher
 trait IGrid extends Publisher{
 
   val filled:Array[String]
+  def toHTML:String
   def is_free (x: Int): Boolean
 }
 
