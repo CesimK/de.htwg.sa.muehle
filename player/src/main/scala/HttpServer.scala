@@ -11,18 +11,19 @@ import scala.concurrent.{ExecutionContextExecutor, Future}
 import scala.swing.Reactor
 import scala.util.{Failure, Success, Try}
 
-class HttpServer(player: Player) extends Reactor {
+class HttpServer(database: Database) extends Reactor {
 
   implicit val system: ActorSystem = ActorSystem("my-system")
   implicit val materializer: ActorMaterializer = ActorMaterializer()
   implicit val executionContext: ExecutionContextExecutor = system.dispatcher
+  var currentPlayer:Player = Player("","")
 
   val route: Route = get {
     pathSingleSlash {
       complete(HttpEntity(ContentTypes.`text/plain(UTF-8)`, "<h1>Player Options</h1>"))
     }
     path("player") {
-      complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>Player Options</h1>" + player.playerToHTML))
+      complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>Player Options</h1>" + currentPlayer.playerToHTML))
     }
   }
   post {
@@ -31,7 +32,7 @@ class HttpServer(player: Player) extends Reactor {
     }
     path("player" / Segment) { command => {
       process_cmd(command)
-      complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>Player Options</h1>" + player.playerToHTML))
+      complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>Player Options</h1>" + currentPlayer.playerToHTML))
     }
     }
   }
@@ -47,9 +48,9 @@ class HttpServer(player: Player) extends Reactor {
   def process_cmd(cmd: String): Unit = {
         val tokens = cmd.split(" ")
         tokens(0) match {
-          case "p1" | "player1" => player.enterName(player.p1, tokens(1))
-          case "p2" | "player2" => player.enterName(player.p2, tokens(1))
-          case "p" | "player" => player.getPlayers()
+          case "p1" | "player1" => database.enterName(tokens(1))
+          case "p2" | "player2" => database.enterName(tokens(1))
+          case "p" | "player" => currentPlayer = database.enterName(tokens(1))
         }
   }
 }
