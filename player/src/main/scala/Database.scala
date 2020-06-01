@@ -1,4 +1,4 @@
-package playerManager
+package player
 import  scala.collection.mutable.Map
 class Database {
   var playerLookup:scala.collection.mutable.Map[String, Player] = Map();

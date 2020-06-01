@@ -1,8 +1,8 @@
-import player.{HttpServer, Player}
+import player.{HttpServer, Database}
 
 object PlayerManager {
 
-    val webserver = new HttpServer(player)
+    val webserver = new HttpServer(new Database())
     def main(args: Array[String]): Unit = {
       var input: String = ""
       do {
