@@ -22,7 +22,7 @@ class HttpServer(player: Player) extends Reactor {
       complete(HttpEntity(ContentTypes.`text/plain(UTF-8)`, "<h1>Player Options</h1>"))
     }
     path("player") {
-      complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>Player Options</h1>" + player.playerToHtml))
+      complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>Player Options</h1>" + player.playerToHTML))
     }
   }
   post {
@@ -31,7 +31,7 @@ class HttpServer(player: Player) extends Reactor {
     }
     path("player" / Segment) { command => {
       process_cmd(command)
-      complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>Player Options</h1>" + player.playerToHtml))
+      complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>Player Options</h1>" + player.playerToHTML))
     }
     }
   }
