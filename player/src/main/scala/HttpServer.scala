@@ -9,7 +9,6 @@ import akka.stream.ActorMaterializer
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
 import scala.swing.Reactor
-import scala.util.{Failure, Success, Try}
 
 class HttpServer(database: Database) extends Reactor {
 
@@ -18,23 +17,25 @@ class HttpServer(database: Database) extends Reactor {
   implicit val executionContext: ExecutionContextExecutor = system.dispatcher
   var currentPlayer:Player = Player("","")
 
-  val route: Route = get {
-    pathSingleSlash {
-      complete(HttpEntity(ContentTypes.`text/plain(UTF-8)`, "<h1>Player Options</h1>"))
-    }
-    path("player") {
-      complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>Player Options</h1>" + currentPlayer.playerToHTML))
-    }
-  }
-  post {
-    pathSingleSlash {
-      complete(HttpEntity(ContentTypes.`text/plain(UTF-8)`, "<h1>Player Options</h1>"))
-    }
-    path("player" / Segment) { command => {
-      process_cmd(command)
-      complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>Player Options</h1>" + currentPlayer.playerToHTML))
-    }
-    }
+  val route: Route = {
+    get {
+      pathSingleSlash {
+        complete(HttpEntity(ContentTypes.`text/plain(UTF-8)`, "<h1>Player Options</h1>"))
+      }
+      path("player") {
+        complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>Player Options</h1>" + currentPlayer.playerToHTML))
+      }
+    } ~
+      post {
+        pathSingleSlash {
+          complete(HttpEntity(ContentTypes.`text/plain(UTF-8)`, "<h1>Player Options</h1>"))
+        }
+        path("player" / Segment) { command => {
+          process_cmd(command)
+          complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>Player Options</h1>" + currentPlayer.playerToHTML))
+        }
+        }
+      }
   }
 
   val bindingFuture: Future[Http.ServerBinding] = Http().bindAndHandle(route, "localhost", 8081)
@@ -51,6 +52,7 @@ class HttpServer(database: Database) extends Reactor {
           case "p1" | "player1" => database.enterName(tokens(1))
           case "p2" | "player2" => database.enterName(tokens(1))
           case "p" | "player" => currentPlayer = database.enterName(tokens(1))
+          case "r" | "remove" => database.removePlayer(tokens(1))
         }
   }
 }
