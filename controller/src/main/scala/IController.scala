@@ -1,7 +1,7 @@
 package controller
 
 import gridComponent.gridBaseImpl.Grid
-import player.Player
+import playerComponent.Player
 
 import scala.swing.Publisher
 import scala.util.Try

@@ -6,7 +6,7 @@ import fileIOImpl.FileIOInterface
 import gridComponent.IGrid
 import gridComponent.gridBaseImpl.Grid
 import play.api.libs.json._
-import player.Player
+import playerComponent.Player
 
 import scala.io._
 

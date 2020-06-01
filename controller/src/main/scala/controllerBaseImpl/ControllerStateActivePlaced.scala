@@ -1,6 +1,7 @@
 package controllerBaseImpl
 
-import player.Player
+import playerComponent.Player
+
 
 class ControllerStateActivePlaced extends ControllerStateActive {
 
