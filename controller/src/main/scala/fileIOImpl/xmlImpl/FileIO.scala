@@ -5,7 +5,7 @@ import controllerBaseImpl.Controller
 import fileIOImpl.FileIOInterface
 import gridComponent.IGrid
 import gridComponent.gridBaseImpl.Grid
-import playerComponent.Player
+import player.Player
 
 import scala.xml.{Elem, NodeSeq, PrettyPrinter}
 

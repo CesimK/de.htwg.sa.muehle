@@ -6,7 +6,7 @@ import controller._
 import fileIOImpl.FileIOInterface
 import gridComponent.gridBaseImpl.Grid
 import gridComponent.gridBaseImpl.Mill.Mill
-import playerComponent.Player
+import player.Player
 
 import scala.swing.Publisher
 import scala.util.{Failure, Success, Try}
