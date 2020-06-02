@@ -23,29 +23,9 @@ lazy val global = project
   .settings(settings)
   .disablePlugins(AssemblyPlugin)
   .aggregate(
-    controller,
-    aview,
     player,
-    model
+    game
   )
-
-lazy val controller = project
-  .settings(name := "controller",
-            settings,
-            libraryDependencies ++= mainModuleDependencies,
-            unmanagedBase := baseDirectory.value / "lib")
-  .disablePlugins(AssemblyPlugin)
-  .dependsOn(model, player)
-  .aggregate(model, player)
-
-lazy val aview = project
-  .settings(name := "aview",
-            settings,
-            assemblySettings,
-            libraryDependencies ++= mainModuleDependencies ++ Seq(
-              dependencies.pureconfig))
-  .dependsOn(model, controller)
-  .aggregate(model, controller)
 
 lazy val player = project
   .settings(name := "player",
@@ -54,19 +34,14 @@ lazy val player = project
             libraryDependencies ++= mainModuleDependencies ++ Seq(
               dependencies.pureconfig))
 
-lazy val main = project
-  .settings(name := "main",
+lazy val game = project
+  .settings(name := "game",
             settings,
             assemblySettings,
             libraryDependencies ++= mainModuleDependencies ++ Seq(
               dependencies.pureconfig))
-  .dependsOn(model, controller, aview)
-  .aggregate(model, controller, aview)
-
-lazy val model = project
-  .settings(name := "model",
-            settings,
-            libraryDependencies ++= mainModuleDependencies)
+  .dependsOn(player)
+  .aggregate(player)
 
 // DEPENDENCIES
 lazy val dependencies =

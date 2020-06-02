@@ -2,7 +2,7 @@ version: '3.8'
 services:
   main:
     image: main-sbt
-    working_dir: /main
+    working_dir: /game/Muehle.scala
     depends_on:
       - player
     stdin_open: true
