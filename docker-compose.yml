@@ -1,12 +1,20 @@
-version: '3.8'
+version: '3'
 services:
-  main:
-    image: main-sbt
-    working_dir: /game/Muehle.scala
-    depends_on:
-      - player
+  game_module:
+    image: game-sbt
     stdin_open: true
-  player:
+    ports:
+      - 9001:9001
+    networks:
+      default:
+        aliases:
+          - mygame
+
+  player_module:
     image: player-sbt
-    working_dir: /player/PlayerManager.scala
-    stdin_open: true
+    ports:
+      - 9000:9000
+    networks:
+      default:
+        aliases:
+          - myplayer

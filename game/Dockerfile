@@ -1,6 +1,5 @@
-FROM adoptopenjdk/openjdk14:alpine-slim
-EXPOSE 54251
+FROM hseeberger/scala-sbt:8u171_2.12.6_1.1.6
+RUN mkdir -p /game
+ADD . /game
 WORKDIR /game
-ADD target/scala-2.13/game-assembly-SAR-6.jar /game
-ENV DOCKERENV="TRUE"
-CMD java -jar game-assembly-SAR-6.jar
+CMD sbt run
