@@ -1,11 +1,11 @@
-package database
+package player.database
 
-import model.{Database, Player}
+import player.model.Player
 
 trait IDatabase {
 
-  def create(data:Database):Option[Database]
-  def read():Option[Player]
-  def update()
-  def delete()
+  def create(player:Player):Option[Player]
+  def read(name:String):Option[Player]
+  def update(name:String)
+  def delete(name:String)
 }

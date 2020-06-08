@@ -1,9 +1,9 @@
-import model.Database
+import player.database.slick._
 import player.HttpServer
 
 object PlayerManager {
 
-    val webserver = new HttpServer(new Database())
+    val webserver = new HttpServer(new RelationalDatabase.type ())
     def main(args: Array[String]): Unit = {
       var input: String = ""
       do {

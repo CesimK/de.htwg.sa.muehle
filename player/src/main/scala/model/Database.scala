@@ -1,4 +1,4 @@
-package model
+package player.model
 
 import scala.collection.mutable.Map
 class Database {

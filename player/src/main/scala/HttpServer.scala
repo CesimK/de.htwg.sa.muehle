@@ -6,12 +6,13 @@ import akka.http.scaladsl.model.{ContentTypes, HttpEntity}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.stream.ActorMaterializer
-import model.{Database, Player}
+import player.database.IDatabase
+import player.model.Player
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
 import scala.swing.Reactor
 
-class HttpServer(database: Database) extends Reactor {
+class HttpServer(database: IDatabase) extends Reactor {
 
   implicit val system: ActorSystem = ActorSystem("my-system")
   implicit val materializer: ActorMaterializer = ActorMaterializer()
@@ -50,10 +51,12 @@ class HttpServer(database: Database) extends Reactor {
   def process_cmd(cmd: String): Unit = {
         val tokens = cmd.split(" ")
         tokens(0) match {
-          case "p1" | "player1" => database.enterName(tokens(1))
-          case "p2" | "player2" => database.enterName(tokens(1))
-          case "p" | "player" => currentPlayer = database.enterName(tokens(1))
-          case "r" | "remove" => database.removePlayer(tokens(1))
+          case "p1" | "player1" => database.create(new Player(tokens(1), "W"))
+          case "p2" | "player2" => database.create(new Player(tokens(1), "B"))
+          case "p" | "player" => database.read(tokens(1)) match {
+            case Some(pl) => currentPlayer = pl
+          }
+          case "r" | "remove" => database.delete(tokens(1))
         }
   }
 }
