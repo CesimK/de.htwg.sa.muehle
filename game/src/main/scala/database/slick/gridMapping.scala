@@ -2,7 +2,7 @@ package database.slick
 
 import model.gridComponent.gridBaseImpl.Grid
 import slick.driver.H2Driver.api._
-
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
@@ -31,7 +31,7 @@ object CaseClassMappingGrid {
   def read(id: Int): Option[Grid] = {
     var grid: Option[Grid] = None
     Await.result(db.run(DBIO.seq(
-      gridQ.result.filter(g => g.head.id == id).map(g => grid = Some(Grid(g.head.filled.toArray[String], g.head.id))))
+      gridQ.result.filter(g => g.head.id == id).map(g => grid = Some(Grid(g.head.filled.split(""), g.head.id))))
     ), Duration.Inf)
     grid
   }

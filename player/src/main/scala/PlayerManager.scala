@@ -3,7 +3,7 @@ import player.HttpServer
 
 object PlayerManager {
 
-    val webserver = new HttpServer(new RelationalDatabase.type ())
+    val webserver = new HttpServer(new RelationalDatabase())
     def main(args: Array[String]): Unit = {
       var input: String = ""
       do {

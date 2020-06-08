@@ -4,6 +4,7 @@ import com.google.inject.Guice
 import controller._
 import controller.commands.{MoveCommand, PlaceCommand}
 import controller.fileIOImpl.FileIOInterface
+import database.slick.RelationalDatabase
 import model.gridComponent.gridBaseImpl.Grid
 import model.gridComponent.gridBaseImpl.Mill.Mill
 import model.playerComponent.Player
@@ -29,6 +30,7 @@ class Controller (var grid:Grid, var p1:Player, var p2:Player) extends Publisher
   val active_Moved = new ControllerStateActiveMoved
   val injector = Guice.createInjector(new MuehleModule)
   val fileio = injector.getInstance(classOf[FileIOInterface])
+  val dao = new RelationalDatabase
   private val undo_manager = new UndoManager
 
   override def newGame(): Try[IController] = {
@@ -36,7 +38,7 @@ class Controller (var grid:Grid, var p1:Player, var p2:Player) extends Publisher
     val p1 = Player(this.p1.name, "W")
     val p2 = Player(this.p2.name, "B")
     publish(new GridChanged)
-    Success(new Controller(grid, p1, p2))
+    Success(dao.create(new Controller(grid, p1, p2)).head)
   }
 
   override def gridToString: String = grid.toString

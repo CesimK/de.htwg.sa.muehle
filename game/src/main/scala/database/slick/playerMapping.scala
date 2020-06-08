@@ -2,7 +2,7 @@ package database.slick
 
 import model.playerComponent.Player
 import slick.driver.H2Driver.api._
-
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 

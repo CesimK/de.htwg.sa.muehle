@@ -4,7 +4,7 @@ import controller.controllerBaseImpl.Controller
 import database.IDatabaseGame
 import model.playerComponent.Player
 
-object RelationalDatabase extends IDatabaseGame {
+class RelationalDatabase extends IDatabaseGame {
   private val mappings: CaseClassMapping.type = CaseClassMapping
 
   def create(controller: Controller): Option[Controller] = {
@@ -18,7 +18,7 @@ object RelationalDatabase extends IDatabaseGame {
         None
       }
     } catch {
-      case _: Throwable => None  // I WANT TO KILL MYSELF
+      case _: Throwable => None
     }
   }
 
@@ -30,11 +30,11 @@ object RelationalDatabase extends IDatabaseGame {
     }
   }
 
-  def update(name:String): Unit = {
+  def update(p1:String, p2:String): Unit = {
     ???
   }
 
-  def delete(name:String): Unit = {
+  def delete(p1:String, p2:String): Unit = {
     ???
   }
 }

@@ -3,7 +3,7 @@ package database.slick
 import database.IDatabasePlayer
 import model.playerComponent.Player
 
-object RelationalDatabasePlayer extends IDatabasePlayer {
+class RelationalDatabasePlayer extends IDatabasePlayer {
   private val mappings: CaseClassMappingPlayer.type = CaseClassMappingPlayer
 
   def create(player: Player): Option[Player] = {

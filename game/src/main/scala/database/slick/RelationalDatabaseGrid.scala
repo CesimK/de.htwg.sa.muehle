@@ -2,7 +2,7 @@ package database.slick
 
 import model.gridComponent.gridBaseImpl.Grid
 
-object RelationalDatabaseGrid {
+class RelationalDatabaseGrid {
   private val mappings: CaseClassMappingGrid.type = CaseClassMappingGrid
 
   def create(grid: Grid): Option[Grid] = {

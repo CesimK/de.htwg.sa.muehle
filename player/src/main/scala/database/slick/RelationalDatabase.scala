@@ -5,7 +5,7 @@ import player.model.Player
 import player.database.IDatabase
 
 
-object RelationalDatabase extends IDatabase {
+class RelationalDatabase extends IDatabase {
   private val mappings: CaseClassMapping.type = CaseClassMapping
 
   def create(player: Player): Option[Player] = {
