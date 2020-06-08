@@ -17,5 +17,7 @@ libraryDependencies += "com.google.inject" % "guice" % "4.1.0"
 libraryDependencies += "com.typesafe.slick" %% "slick" % "3.3.1"
 libraryDependencies += "org.slf4j" % "slf4j-nop" % "1.7.26"
 libraryDependencies += "com.typesafe.slick" %% "slick-hikaricp" % "3.3.1"
+libraryDependencies += "com.h2database" % "h2" % "1.4.199"
+
 
 unmanagedBase := baseDirectory.value / "lib"
