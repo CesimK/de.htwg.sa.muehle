@@ -6,6 +6,7 @@ import akka.http.scaladsl.model.{ContentTypes, HttpEntity}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.stream.ActorMaterializer
+import model.{Database, Player}
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
 import scala.swing.Reactor

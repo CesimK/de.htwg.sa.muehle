@@ -1,4 +1,5 @@
-import player.{HttpServer, Database}
+import model.Database
+import player.HttpServer
 
 object PlayerManager {
 

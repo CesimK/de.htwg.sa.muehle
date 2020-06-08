@@ -1,5 +1,6 @@
-package player
-import  scala.collection.mutable.Map
+package model
+
+import scala.collection.mutable.Map
 class Database {
   var playerLookup:scala.collection.mutable.Map[String, Player] = Map();
   var color = "B"
