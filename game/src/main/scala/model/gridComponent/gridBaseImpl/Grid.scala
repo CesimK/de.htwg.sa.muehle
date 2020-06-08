@@ -2,7 +2,7 @@ package model.gridComponent.gridBaseImpl
 
 import model.gridComponent.IGrid
 
-case class Grid (filled:Array[String]) extends IGrid {
+case class Grid (filled:Array[String], id: Int = -1) extends IGrid {
   val empt_val = "O"
 
   override def toString: String = {

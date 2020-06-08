@@ -1,6 +1,6 @@
 package player.database.slick
 
-import model.Player
+import player.model.Player
 
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global

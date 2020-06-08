@@ -1,12 +1,10 @@
-package player.database.slick
+package database.slick
 
-import player.database.slick.CaseClassMapping
-import player.model.Player
-import player.database.IDatabase
+import database.IDatabasePlayer
+import model.playerComponent.Player
 
-
-object RelationalDatabase extends IDatabase {
-  private val mappings: CaseClassMapping.type = CaseClassMapping
+object RelationalDatabasePlayer extends IDatabasePlayer {
+  private val mappings: CaseClassMappingPlayer.type = CaseClassMappingPlayer
 
   def create(player: Player): Option[Player] = {
     try {
