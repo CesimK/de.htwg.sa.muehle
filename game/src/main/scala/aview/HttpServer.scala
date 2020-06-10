@@ -7,6 +7,7 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.stream.ActorMaterializer
 import controller.IController
+import database.IDatabaseGame
 import utils.{GameOver, GridChanged, InvalidTurn, TakeStone}
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
@@ -15,7 +16,7 @@ import scala.util.control.Breaks.{break, breakable}
 import scala.util.{Failure, Success, Try}
 
 
-class HttpServer(controller: Try[IController]) extends Reactor {
+class HttpServer(database:IDatabaseGame, controller: Try[IController]) extends Reactor {
  var icontroller: IController = _
 
   controller match {
