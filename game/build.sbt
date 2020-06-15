@@ -18,5 +18,5 @@ libraryDependencies += "com.typesafe.slick" %% "slick" % "3.3.1"
 libraryDependencies += "org.slf4j" % "slf4j-nop" % "1.7.26"
 libraryDependencies += "com.typesafe.slick" %% "slick-hikaricp" % "3.3.1"
 libraryDependencies += "com.h2database" % "h2" % "1.4.199"
-
+libraryDependencies += "org.mongodb.scala" %% "mongo-scala-driver" % "2.9.0"
 unmanagedBase := baseDirectory.value / "lib"
