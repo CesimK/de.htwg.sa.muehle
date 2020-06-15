@@ -4,6 +4,6 @@ import player.database.IDatabase
 
 class PlayerModule extends AbstractModule with ScalaModule {
   def configure() = {
-    bind[IDatabase].to[database.mongo.mongoDB]
+    bind[IDatabase].to[database.mongo.MongoDB]
   }
 }
