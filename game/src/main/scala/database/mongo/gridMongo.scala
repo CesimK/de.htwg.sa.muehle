@@ -17,7 +17,7 @@ class gridMongo extends IDatabaseGrid{
   override def create(grid: Grid): Option[Grid] = {
     try {
       Await.result(gridCollection.insertOne(
-        Document("grid" -> grid.filled, "id" -> grid.id)
+        Document("grid" -> grid.filled.toString, "id" -> grid.id)
       ).toFuture(), DURATION)
       Some(grid)
     } catch {
