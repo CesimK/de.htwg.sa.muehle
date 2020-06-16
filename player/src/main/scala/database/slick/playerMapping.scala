@@ -5,7 +5,7 @@ import player.model.Player
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
-import slick.driver.H2Driver.api._
+import slick.driver.PostgresDriver.api._
 
 import scala.collection.immutable.SortedSet
 
@@ -14,7 +14,11 @@ object CaseClassMapping {
   // the base query for the Users table
   val players = TableQuery[playerMapping]
 
-  val db = Database.forConfig("h2mem1")
+  val db = Database.forURL(
+    "jdbc:postgresql://database:5432/player",
+    "root", "123",
+    null,
+    "org.postgresql.Driver")
 
   def create(player: Player): Boolean = {
     try {

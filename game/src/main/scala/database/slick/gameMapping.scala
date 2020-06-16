@@ -3,7 +3,7 @@ package database.slick
 import controller.controllerBaseImpl.Controller
 
 import scala.concurrent.duration.Duration
-import slick.driver.H2Driver.api._
+import slick.driver.PostgresDriver.api._
 import slick.lifted.ForeignKeyQuery
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -15,7 +15,11 @@ object CaseClassMapping {
   val playerMappings: CaseClassMappingPlayer.type = CaseClassMappingPlayer
   val gridMappings: CaseClassMappingGrid.type = CaseClassMappingGrid
 
-  val db = Database.forConfig("h2mem1")
+  val db = Database.forURL(
+    "jdbc:postgresql://database:5432/game",
+    "root", "123",
+    null,
+    "org.postgresql.Driver")
 
   def create(controller: Controller): Boolean = {
     try {
