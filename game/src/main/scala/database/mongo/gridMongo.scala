@@ -2,7 +2,7 @@ package database.mongo
 
 import database.IDatabaseGrid
 import model.gridComponent.gridBaseImpl.Grid
-import org.mongodb.scala._
+import org.mongodb.scala.{Document, MongoClient, MongoCollection, MongoDatabase}
 
 import scala.concurrent.Await
 import scala.concurrent.duration.{Duration, FiniteDuration}

@@ -3,7 +3,7 @@ db.createUser(
     {
         user: 'root',
         pwd: '123',
-        roles: [{ role: 'readWrite', db: 'playermanagement' }]
+        roles: [{ role: 'readWrite', db: 'player' }]
     }
 );
 db.createCollection('players');
@@ -13,7 +13,7 @@ db.createUser(
     {
         user: 'root',
         pwd: '123',
-        roles: [{ role: 'readWrite', db: 'gamelogic' }]
+        roles: [{ role: 'readWrite', db: 'game' }]
     }
 );
 db.createCollection('sessions');
