@@ -25,23 +25,25 @@ class gridMongo extends IDatabaseGrid{
     }
   }
 
-  override def read(id: Int): Option[Grid] = {
-    val x = Await.result(gridCollection.find().toFuture(), DURATION)
-    val list = x
-      .map(doc => (doc.get("grid"), doc.get("id")))
-      .map(tuple => {
-        (tuple._1.getOrElse(return None).asString().getValue, tuple._2.getOrElse(return None).asInt32().getValue)
-      })
-
-    val results = list.map(tuple => {
-      (tuple._1, tuple._2)
-    })
-
-    val correctId = results.find(p => p._2 == id).getOrElse(return None)
-    Some(Grid(correctId._1.toArray[String], correctId._2))
-  }
+//  override def read(id: Int): Option[Grid] = {
+//    val x = Await.result(gridCollection.find().toFuture(), DURATION)
+//    val list = x
+//      .map(doc => (doc.get("grid"), doc.get("id")))
+//      .map(tuple => {
+//        (tuple._1.getOrElse(return None).asString().getValue, tuple._2.getOrElse(return None).asInt32().getValue)
+//      })
+//
+//    val results = list.map(tuple => {
+//      (tuple._1, tuple._2)
+//    })
+//
+//    val correctId = results.find(p => p._2 == id).getOrElse(return None)
+//    Some(Grid(correctId._1.toArray[String], correctId._2))
+//  }
+  override def read(id: Int): Option[Grid] = ???
 
   override def update(id: Int): Unit = ???
 
   override def delete(id: Int): Unit = ???
+
 }
