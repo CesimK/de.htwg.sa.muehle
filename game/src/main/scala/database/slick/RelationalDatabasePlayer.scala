@@ -3,21 +3,23 @@ package database.slick
 import database.IDatabasePlayer
 import model.playerComponent.Player
 
+import scala.concurrent.Future
+
 class RelationalDatabasePlayer extends IDatabasePlayer {
   private val mappings: CaseClassMappingPlayer.type = CaseClassMappingPlayer
 
-  def create(player: Player): Option[Player] = {
+  def create(player: Player): Future[Player] = {
     try {
       val worked = mappings.create(player)
       if (worked) {
         println("Saved player in database")
-        Some(player)
+        Future.successful(player)
       } else {
         println("Error saving player in database")
-        None
+        Future.failed(throw Exception)
       }
     } catch {
-      case _: Throwable => None
+      case _: Throwable => Future.failed(throw Exception)
     }
   }
 

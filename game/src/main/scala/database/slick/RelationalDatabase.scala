@@ -4,21 +4,23 @@ import controller.controllerBaseImpl.Controller
 import database.IDatabaseGame
 import model.playerComponent.Player
 
+import scala.concurrent.Future
+
 class RelationalDatabase extends IDatabaseGame {
   private val mappings: CaseClassMapping.type = CaseClassMapping
 
-  def create(controller: Controller): Option[Controller] = {
+  def create(controller: Controller): Future[Controller] = {
     try {
       val worked = mappings.create(controller)
       if (worked) {
         println("Saved player in database")
-        Some(controller)
+        Future.successful(controller)
       } else {
         println("Error saving player in database")
-        None
+        Future.failed(throw Exception)
       }
     } catch {
-      case _: Throwable => None
+      case _: Throwable => Future.failed(throw Exception)
     }
   }
 

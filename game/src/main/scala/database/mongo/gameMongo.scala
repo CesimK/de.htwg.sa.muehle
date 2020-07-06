@@ -25,7 +25,7 @@ class gameMongo extends IDatabaseGame {
     Future.successful(controller)
   }
 
-  override def read(p1: String, p2: String): Future[Controller] = {
+  override def read(p1: String, p2: String): Option[Controller] = {
     val x = gameCollection.find(Document("p1" -> p1, "p2" -> p2)).map(dbo => {
       dbo.getInteger("grid")
     })
@@ -34,7 +34,7 @@ class gameMongo extends IDatabaseGame {
     val player2 = playerMapping.read(p2)
     val grid = gridMapping.read(results.head)
 
-    Future.successful(new Controller(grid.head, player1.head, player2.head))
+    Some(new Controller(grid.head, player1.head, player2.head))
   }
 
   override def update(p1: String, p2: String): Unit = ???
