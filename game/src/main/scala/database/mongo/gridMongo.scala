@@ -4,7 +4,7 @@ import database.IDatabaseGrid
 import model.gridComponent.gridBaseImpl.Grid
 import org.mongodb.scala.{Document, MongoClient, MongoCollection, MongoDatabase}
 
-import scala.concurrent.Await
+import scala.concurrent.{Await, Future}
 import scala.concurrent.duration.{Duration, FiniteDuration}
 
 class gridMongo extends IDatabaseGrid{
@@ -14,14 +14,14 @@ class gridMongo extends IDatabaseGrid{
   val database: MongoDatabase = mongoClient.getDatabase("muehle")
   val gridCollection: MongoCollection[Document] = database.getCollection("grid")
 
-  override def create(grid: Grid): Option[Grid] = {
+  override def create(grid: Grid): Future[Grid] = {
     try {
       Await.result(gridCollection.insertOne(
         Document("grid" -> grid.filled.toString, "id" -> grid.id)
       ).toFuture(), DURATION)
-      Some(grid)
+      Future.successful(grid)
     } catch {
-      case _: Throwable => None
+      case _: Throwable => Future.failed(throw Exception)
     }
   }
 

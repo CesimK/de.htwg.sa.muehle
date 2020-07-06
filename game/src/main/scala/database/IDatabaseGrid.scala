@@ -2,8 +2,10 @@ package database
 
 import model.gridComponent.gridBaseImpl.Grid
 
+import scala.concurrent.Future
+
 trait IDatabaseGrid {
-  def create(grid: Grid): Option[Grid]
+  def create(grid: Grid): Future[Grid]
 
   def read(id: Int): Option[Grid]
 

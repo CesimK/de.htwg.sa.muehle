@@ -5,7 +5,7 @@ import database.{IDatabaseGame, IDatabaseGrid}
 import model.gridComponent.gridBaseImpl.Grid
 import org.mongodb.scala.{Document, MongoClient, MongoCollection, MongoDatabase}
 
-import scala.concurrent.Await
+import scala.concurrent.{Await, Future}
 import scala.concurrent.duration.{Duration, FiniteDuration}
 
 class gameMongo extends IDatabaseGame {
@@ -18,14 +18,14 @@ class gameMongo extends IDatabaseGame {
   val playerMapping = new playerMongo
   val gridMapping = new gridMongo
 
-  override def create(controller: Controller): Option[Controller] = {
+  override def create(controller: Controller): Future[Controller] = {
     Await.result(gameCollection.insertOne(
       Document("grid" -> controller.grid.id, "p1" -> controller.p1.name, "p2" -> controller.p2.name)
     ).toFuture(), DURATION)
-    Some(controller)
+    Future.successful(controller)
   }
 
-  override def read(p1: String, p2: String): Option[Controller] = {
+  override def read(p1: String, p2: String): Future[Controller] = {
     val x = gameCollection.find(Document("p1" -> p1, "p2" -> p2)).map(dbo => {
       dbo.getInteger("grid")
     })
@@ -34,7 +34,7 @@ class gameMongo extends IDatabaseGame {
     val player2 = playerMapping.read(p2)
     val grid = gridMapping.read(results.head)
 
-    Some(new Controller(grid.head, player1.head, player2.head))
+    Future.successful(new Controller(grid.head, player1.head, player2.head))
   }
 
   override def update(p1: String, p2: String): Unit = ???
