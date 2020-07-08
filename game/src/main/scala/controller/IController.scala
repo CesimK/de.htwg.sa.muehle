@@ -3,6 +3,7 @@ package controller
 import model.gridComponent.gridBaseImpl.Grid
 import model.playerComponent.Player
 
+import scala.concurrent.Future
 import scala.swing.Publisher
 import scala.util.Try
 
@@ -14,7 +15,7 @@ trait IController extends Publisher {
   var active:Player
   var status:String
   var highlight:Array[Boolean]
-  def newGame():Try[IController]
+  def newGame():Future[IController]
   def gridToString: String
   def placeStone(controller: Try[IController] ,pos:Int):Try[IController]
   def moveStone(controller: Try[IController], src:Int, pos:Int):Try[IController]

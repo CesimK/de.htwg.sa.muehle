@@ -23,25 +23,25 @@ class MongoDB extends IDatabase{
       ).toFuture(), DURATION)
       Future.successful(player)
     } catch {
-      case _: Throwable => Future.failed(throw Exception)
+      case _: Throwable => Future.never
     }
   }
 
-  override def read(name: String): Future[Player] = {
+  override def read(name: String): Option[Player] = {
     val x = Await.result(playerCollection.find().toFuture(), DURATION)
     val list = x
       .map(doc => (doc.get("name"), doc.get("color"), doc.get("stones"), doc.get("mills")))
       .map(tuple => {
-        (tuple._1.getOrElse(return Future.failed(throw Exception)).asString().getValue, tuple._2.getOrElse(return Future.failed(throw Exception)).asString().getValue,
-          tuple._3.getOrElse(return Future.failed(throw Exception)).asInt32().getValue, tuple._4.getOrElse(return Future.failed(throw Exception)).asInt32().getValue)
+        (tuple._1.getOrElse(return None).asString().getValue, tuple._2.getOrElse(return None).asString().getValue,
+          tuple._3.getOrElse(return None).asInt32().getValue, tuple._4.getOrElse(return None).asInt32().getValue)
       })
 
     val results = list.map(tuple => {
       (tuple._1, tuple._2, tuple._3, tuple._4)
     })
 
-    val correctPlayer = results.find(p => p._1 == name).getOrElse(return Future.failed(throw Exception))
-    Future.successful(Player(correctPlayer._1, correctPlayer._2, correctPlayer._3, correctPlayer._4))
+    val correctPlayer = results.find(p => p._1 == name).get
+   Some(Player(correctPlayer._1, correctPlayer._2, correctPlayer._3, correctPlayer._4))
   }
 
   override def update(name: String): Unit = {

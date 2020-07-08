@@ -21,7 +21,7 @@ class playerMongo extends IDatabasePlayer {
       ).toFuture(), DURATION)
       Future.successful(player)
     } catch {
-      case _: Throwable => Future.failed(throw Exception)
+      case _: Throwable => Future.never
     }
   }
 

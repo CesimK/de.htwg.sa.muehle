@@ -10,6 +10,7 @@ import model.gridComponent.gridBaseImpl.Mill.Mill
 import model.playerComponent.Player
 import utils.{GameOver, GridChanged, InvalidTurn, TakeStone, UndoManager}
 
+import scala.concurrent.Future
 import scala.swing.Publisher
 import scala.util.{Failure, Success, Try}
 
@@ -33,12 +34,12 @@ class Controller (var grid:Grid, var p1:Player, var p2:Player) extends Publisher
   val dao = new RelationalDatabase
   private val undo_manager = new UndoManager
 
-  override def newGame(): Try[IController] = {
+  override def newGame(): Future[IController] = {
     val grid = Grid(Array.fill(24)("O"))
     val p1 = Player(this.p1.name, "W")
     val p2 = Player(this.p2.name, "B")
     publish(new GridChanged)
-    Success(dao.create(new Controller(grid, p1, p2)).head)
+    dao.create(new Controller(grid, p1, p2))
   }
 
   override def gridToString: String = grid.toString

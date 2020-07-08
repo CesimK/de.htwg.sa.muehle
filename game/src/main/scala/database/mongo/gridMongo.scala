@@ -21,7 +21,7 @@ class gridMongo extends IDatabaseGrid{
       ).toFuture(), DURATION)
       Future.successful(grid)
     } catch {
-      case _: Throwable => Future.failed(throw Exception)
+      case _: Throwable => Future.never
     }
   }
 

@@ -16,10 +16,10 @@ class RelationalDatabasePlayer extends IDatabasePlayer {
         Future.successful(player)
       } else {
         println("Error saving player in database")
-        Future.failed(throw Exception)
+        Future.never
       }
     } catch {
-      case _: Throwable => Future.failed(throw Exception)
+      case _: Throwable => Future.never
     }
   }
 
